@@ -13,4 +13,16 @@ class FirstViewModel : ViewModel() {
         action.onNext(FirstAction.NavigateToSecondPage)
     }
 
+    private var amountClicked = 0
+
+    fun resetAmountClicked() {
+        amountClicked = 0
+    }
+
+    fun incrementAmountClicked() {
+        amountClicked++
+    }
+
+    fun hasBeenClicked() = amountClicked > 0
+
 }

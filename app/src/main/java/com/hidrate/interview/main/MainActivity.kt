@@ -25,7 +25,9 @@ class MainActivity : AppCompatActivity() {
                 replace(R.id.mainContainerView, FirstFragment())
             }
         }
-        
+
+        binding.toolbar.title = getString(R.string.app_name)
+
         supportFragmentManager.setFragmentResultListener(
             MAIN_FRAGMENT_RESULT_REQUEST_KEY,
             this
@@ -36,16 +38,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Hello from Hidrate!", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            Snackbar.make(view, "Hello from Hidrate!", Snackbar.LENGTH_LONG).show()
         }
     }
 
     private fun handleBundleFromFragmentResult(bundle: Bundle) {
         if (bundle.containsKey(MAIN_RESULT_ACTION_FRAGMENT_KEY)) {
-            bundle.getParcelable<MainFragmentNavigationResultAction>(MAIN_RESULT_ACTION_FRAGMENT_KEY)?.let {
-                handle(it)
-            }
+            bundle.getParcelable<MainFragmentNavigationResultAction>(MAIN_RESULT_ACTION_FRAGMENT_KEY)
+                ?.let {
+                    handle(it)
+                }
         }
     }
 

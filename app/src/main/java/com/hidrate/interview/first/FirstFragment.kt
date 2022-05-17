@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.hidrate.interview.R
@@ -19,14 +20,11 @@ import io.reactivex.schedulers.Schedulers
 class FirstFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
-
     private val binding get() = _binding!!
 
     private val viewModel: FirstViewModel by viewModels()
 
     private val compositeDisposable = CompositeDisposable()
-
-    var amountClicked = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,15 +54,13 @@ class FirstFragment : Fragment() {
     }
 
     private fun handle(action: FirstAction) {
-        when(action) {
+        when (action) {
             is FirstAction.NavigateToSecondPage -> {
-                if(amountClicked == 0) {
+                if (viewModel.hasBeenClicked().not()) {
                     binding.buttonFirst.text = getString(R.string.click_again)
-                    amountClicked++
+                    viewModel.incrementAmountClicked()
                 } else {
-                    amountClicked = 0
-                    binding.buttonFirst.text = getString(R.string.hello_first_fragment)
-
+                    viewModel.resetAmountClicked()
                     setFragmentResult(MAIN_FRAGMENT_RESULT_REQUEST_KEY, Bundle().apply {
                         putParcelable(
                             MAIN_RESULT_ACTION_FRAGMENT_KEY,
